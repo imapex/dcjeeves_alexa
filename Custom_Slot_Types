@@ -1,0 +1,21 @@
+LIST_OF_ENVIRONMENTS
+
+dev
+qa
+prod
+
+LIST_OF_CLOUDS
+
+rosemont
+chicago
+
+LIST_OF_COMMANDS
+
+start vm
+stop vm
+reboot vm
+
+LIST_OF_VMS
+
+snoopy
+woodstock
