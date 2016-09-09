@@ -1,0 +1,28 @@
+{
+  "intents": [
+    {
+      "intent": "AskDCJeeves",
+      "slots": [
+        {
+          "name": "Environment",
+          "type": "LIST_OF_ENVIRONMENTS"
+        },
+        {
+          "name": "Cloud",
+          "type": "LIST_OF_CLOUDS"
+        },
+        {
+          "name": "Command",
+          "type": "LIST_OF_COMMANDS"
+        },
+        {
+          "name": "VM",
+          "type": "LIST_OF_VMS"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}
