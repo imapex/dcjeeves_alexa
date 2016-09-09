@@ -1,8 +1,11 @@
 
 """
-This sample Alexa app to make calls to DCJeeves
+This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
+The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well
+as testing instructions are located at http://amzn.to/1LzFrj6
 
-This is still in development and some information is hard coded
+For additional samples, visit the Alexa Skills Kit Getting Started guide at
+http://amzn.to/1LGWsLG
 """
 
 
@@ -10,9 +13,9 @@ from __future__ import print_function
 import json
 import urllib2
 
-dcj_base_url = 'http://base_url_for_dcjeeves/'
+# Here is an instance of something hard coded
+dcj_base_url = 'http://imapex-dcjeeves-app.green.browndogtech.com/'
 
-#validate?sentence=dcjeeves+reboot+vm+on+dev+at+rosemont+where+vm+name+equals+snoopy'
 
 def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
@@ -107,9 +110,6 @@ def get_welcome_response():
     reprompt_text = "Jeeves is here for your service, just ass? "
     should_end_session = False
     
-    response = urllib2.urlopen(dcj_base_url).read()
-    print(response)
-    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -132,6 +132,7 @@ def ask_dcjeeves(intent, session):
     session_attributes = {}
     should_end_session = False
 
+    # LETS FIGURE OUT BETTER DEBUGGING LATER WHEN WE HAVE TIME
     #if 'Environment' in intent['slots']:
     #    environment = intent['slots']['Environment']['value']
     #    #session_attributes = create_favorite_color_attributes(favorite_color)
@@ -149,18 +150,20 @@ def ask_dcjeeves(intent, session):
     vm = intent['slots']['VM']['value']
     speech_output = "You asked to " + \
                     command + " " + vm + "." + \
-                    "This will be done on " + \
+                    '<break time="1s"/>This will be done on ' + \
                     environment + " at " + cloud + "!"
+                    
+    call_url =  command + " on " + \
+                    environment + " at " + \
+                    cloud + " where " + \
+                    "vm name equals " + vm
+    call_url='validate?sentence=dcjeeves+' + urllib2.quote(call_url)
+    print("Making REST call to "+dcj_base_url+call_url)
+    response = urllib2.urlopen(dcj_base_url+call_url).read()
+    print(response)
     reprompt_text = "Come on lets do something?"    
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
-
-
-def create_favorite_color_attributes(favorite_color):
-    return {"favoriteColor": favorite_color}
-
-
-
 
 # --------------- Helpers that build all of the responses ----------------------
 
